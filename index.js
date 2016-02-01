@@ -203,7 +203,6 @@
 
   // Wrapper around spork to shorthand common behavior
   function _spork(command, args, resolve, reject) {
-    console.log(args);
     spork(command, args, {exit: false, quiet: true})
         .on('exit:code', function(code) {
           if (code === 0) {
