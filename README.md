@@ -34,26 +34,27 @@ $ npm install --global npm-publish-release   # links to node/.bin (avalable ever
 
 ```bash
 $ npm install --save npm-publish-release
-$ npm link && npm link npm-publish-release   # optionally link the script to node/.bin
-                                             # (does NOT install the module globally)
+
+# optionally link the script to node/.bin
+# (does NOT install the module globally)
+$ npm link && npm link npm-publish-release
 ```
 
 ## Usage
 
+As mentioned earlier, the key is _simplicity_. With no additional options, `npm-publish-release` will do all of the following:
+
+1. Bump the `PATCH` version in `package.json`.
+2. Publish a `tag` to `github`.
+3. Publish a release to `npm`.
+
 ### CLI
 
-As mentioned earlier, the key is _simplicity_. Assuming your code is all committed and your working copy clean, run:
+Assuming your code is all committed and your working copy clean, run:
 
 ```bash
 $ npm-publish-release
 ```
-
-With no additional options, this will do all of the following:
-
-1. Bump the `PATCH` version in `package.json`.
-2. Add a new commit with the message `Bumping to version X.X.X`.
-3. Publish a `tag` to `github`.
-4. Publish a release to `npm`.
 
 ![npm-publish-release output](https://raw.github.com/justinhelmer/npm-publish-release/master/npr.jpg)
 
@@ -100,6 +101,12 @@ The options are the same for both the `CLI` and the `module` interface:
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/justinhelmer/npm-publish-release/issues)
 [![devDependency status](https://david-dm.org/justinhelmer/npm-publish-release/dev-status.svg)](https://github.com/justinhelmer/npm-publish-release#info=devDependencies)
+
+## Other libraries
+
+Other libraries that work well when used in conjunction with `npm-publish-release`:
+
+- [node-clean-exit](https://github.com/justinhelmer/node-clean-exit) - A small module for exiting a node process cleanly.
 
 ## License
 
