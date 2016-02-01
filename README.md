@@ -54,7 +54,7 @@ As mentioned earlier, the key is _simplicity_. With no additional options, `npm-
 Assuming your code is all committed and your working copy clean, run:
 
 ```bash
-$ npm-publish-release
+$ npr   # alias for node-publish-release
 ```
 
 ![npm-publish-release output](https://raw.github.com/justinhelmer/npm-publish-release/master/npr.jpg)

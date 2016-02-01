@@ -4,6 +4,7 @@
   "description": "Simple interface for publishing a release to npm and/or github",
   "keywords": [
     "npm",
+    "release",
     "github",
     "release",
     "publish",
@@ -22,7 +23,8 @@
   ],
   "main": "./index.js",
   "bin": {
-    "npm-publish-release": "./bin/npm-publish-release.js"
+    "npm-publish-release": "./bin/npm-publish-release.js",
+    "npr": "./bin/npr.js"
   },
   "repository": "justinhelmer/npm-publish-release",
   "dependencies": {
