@@ -91,7 +91,7 @@
           add(); // calls commit() on success
 
           function add() {
-            spork('git', ['add', 'package.json'], {exit: false})
+            spork('git', ['add', 'package.json'], {exit: false, quiet: true})
                 .on('exit:code', function(code) {
                   if (code === 0) {
                     commit(); // calls push() on success
@@ -102,7 +102,7 @@
           }
 
           function commit() {
-            spork('git', ['commit', '-m', '"Bumping to version ' + require(pkg).version + '"'], {exit: false})
+            spork('git', ['commit', '-m', 'Bumping to version ' + require(pkg).version], {exit: false, quiet: true})
                 .on('exit:code', function(code) {
                   if (code === 0) {
                     push();
@@ -114,7 +114,7 @@
 
 
           function push() {
-            spork('git', ['push', 'origin', 'master'], {exit: false})
+            spork('git', ['push', 'origin', 'master'], {exit: false, quiet: true})
                 .on('exit:code', function(code) {
                   if (code === 0) {
                     if (!options.quiet) {
@@ -166,7 +166,7 @@
           tag(); // calls push() on success
 
           function tag() {
-            spork('git', ['tag', version], {exit: false})
+            spork('git', ['tag', version], {exit: false, quiet: true})
                 .on('exit:code', function(code) {
                   if (code === 0) {
                     push();
@@ -177,7 +177,7 @@
           }
 
           function push() {
-            spork('git', ['push', 'origin', version], {exit: false})
+            spork('git', ['push', 'origin', version], {exit: false, quiet: true})
                 .on('exit:code', function(code) {
                   if (code === 0) {
                     if (!options.quiet) {
