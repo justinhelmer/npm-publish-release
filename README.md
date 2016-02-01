@@ -1,7 +1,102 @@
 # npm-publish-release
-Easy interface for publishing a release to npm and/or github
+Easy interface for automatically bumping and publishing a release to `npm` and/or `github`.
 
-Coming soon...
+[![npm package](https://badge.fury.io/js/npm-publish-release.svg)](https://www.npmjs.com/package/npm-publish-release)
+[![node version](https://img.shields.io/node/v/npm-publish-release.svg?style=flat)](http://nodejs.org/download/)
+[![dependency status](https://david-dm.org/justinhelmer/npm-publish-release.svg)](https://github.com/justinhelmer/npm-publish-release)
+[![devDependency status](https://david-dm.org/justinhelmer/npm-publish-release/dev-status.svg)](https://github.com/justinhelmer/npm-publish-release#info=devDependencies)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/justinhelmer/npm-publish-release/issues)
+
+A little package that stresses _simplicity_. Publishes a release to `git` or `npm` by:
+
+1. Bumping the `MAJOR` / `MINOR` / `PATCH` version appropriately in `package.json`.
+2. _(optionally)_ Publishing a [git tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging) with the format `vX.X.X`, i.e. `v2.4.8` to a `github` repository.
+3. _(optionally)_ Publishing to `npm` by using [npm publish](https://docs.npmjs.com/cli/publish).
+
+## Installation
+
+`npm-publish-release` uses [vinyl-fs](https://github.com/gulpjs/vinyl-fs) for modifying `package.json`; specifically [gulp-bump](https://www.npmjs.com/package/gulp-bump).
+Therefore `gulp` must be installed globally:
+
+```bash
+$ npm install --global gulp
+```
+
+`npm-publish-release` can be installed _locally_ or _globally_, and includes both a `node` module interface and a command-line interface (`CLI`).
+
+### Install globally
+
+```bash
+$ npm install --global npm-publish-release   # links to node/.bin (avalable everywhere) 
+```
+
+### Install locally
+
+```bash
+$ npm install --save npm-publish-release
+$ npm link && npm link npm-publish-release   # optionally link the script to node/.bin
+                                             # (does NOT install the module globally)
+```
+
+## Usage
+
+### CLI
+
+As mentioned earlier, the key is _simplicity_. Assuming your code is all committed and your working copy clean, run:
+
+```bash
+$ npm-publish-release
+```
+
+With no additional options, this will do all of the following:
+
+1) Bump the `PATCH` version in `package.json`.
+2) Add a new commit with the message `Bumping to version X.X.X`.
+3) Publish a `tag` to `github`.
+4) Publish a release to `npm`.
+
+Done.
+
+### Using it programmatically
+
+The `node` module follows the same format as the `CLI`, and uses [Bluebird](https://github.com/petkaantonov/bluebird) promises:
+
+```js
+const publish = require('npm-publish-release');
+
+let child = publish()
+    .then(function() {
+      console.log('success!');
+    })
+    .catch(function(err) {
+      console.error('Something went wrong:', err);
+    })
+    .done();
+    
+require('node-clean-exit')([child]); // separate project
+```
+
+## Options
+
+The options are the same for both the `CLI` and the `module` interface:
+
+- `version` _{string}_ - Can be `major`, `minor`, `patch`, or a specific version number in the format `X.X.X`. If omitted, `patch` is assumed.
+- `dest` _{string}_ - Can be either `npm` or `github`. Omit to publish to both.
+- `quiet` _{boolean}_ - Suppress all output. Defaults to `false`.
+  > Be careful here; any prompt for credentials will not be shown.
+- `verbose` _{mixed}_ - Can be a boolean or a number. The higher the number, the higher the verbosity. Defaults to `false`.
+
+-----
+
+**Note**: If you are looking for something more robust, perhaps try one of these (although I have not tried them myself):
+ 
+- [publish-release](https://github.com/remixz/publish-release)
+- [pmm](https://github.com/d4rkr00t/pmm)
+
+## Contributing
+
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/justinhelmer/npm-publish-release/issues)
+[![devDependency status](https://david-dm.org/justinhelmer/npm-publish-release/dev-status.svg)](https://github.com/justinhelmer/npm-publish-release#info=devDependencies)
 
 ## License
 

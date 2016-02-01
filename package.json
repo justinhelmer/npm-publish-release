@@ -1,7 +1,7 @@
 {
   "name": "npm-publish-release",
-  "version": "0.0.0",
-  "description": "Easy interface for publishing a release to npm and/or github",
+  "version": "1.0.1",
+  "description": "Simple interface for publishing a release to npm and/or github",
   "keywords": [
     "npm",
     "github",
@@ -18,14 +18,27 @@
   "license": "MIT",
   "author": "Justin Helmer jhelmer25@gmail.com",
   "files": [
-    "bin",
-    "lib"
+    "bin"
   ],
+  "main": "./index.js",
   "bin": {
     "npm-publish-release": "./bin/npm-publish-release.js"
   },
   "repository": "justinhelmer/npm-publish-release",
-  "dependencies": {},
+  "dependencies": {
+    "bluebird": "^3.1.5",
+    "chalk": "^1.1.1",
+    "commander": "^2.9.0",
+    "commander.js-error": "^1.0.2",
+    "gulp": "^3.9.0",
+    "gulp-bump": "^1.0.0",
+    "gulp-exit": "0.0.2",
+    "gulp-util": "^3.0.7",
+    "lodash": "^4.1.0",
+    "node-clean-exit": "^0.2.0",
+    "node-spork": "^0.1.6",
+    "through2-filter": "^2.0.0"
+  },
   "engines": {
     "node": ">=0.12"
   }
