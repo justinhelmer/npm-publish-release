@@ -35,8 +35,8 @@
     "gulp-exit": "0.0.2",
     "gulp-util": "^3.0.7",
     "lodash": "^4.1.0",
-    "node-clean-exit": "^0.2.0",
-    "node-spork": "^0.1.6",
+    "node-clean-exit": "^0.2.1",
+    "node-spork": "^0.2.1",
     "through2-filter": "^2.0.0"
   },
   "engines": {
