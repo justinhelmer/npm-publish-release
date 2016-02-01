@@ -91,6 +91,7 @@ The options are the same for both the `CLI` (_kebab-case_) and the `module` inte
                               May be useful if there is no associated `git` repository.
 - **dest** _{string}_ - Either `npm` or `github`; omit for both.
 - **quiet** _{boolean}_ - Output nothing (suppress `STDOUT` and `STDERR`).
+- **verbose** _{boolean}_ - Display full stack traces for errors. Takes precedence over `--quiet`.
 
   > Be careful here; any prompt for credentials will not be shown.
 

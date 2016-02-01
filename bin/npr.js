@@ -7,7 +7,7 @@
   var publish = require('../index');
 
   program
-      .version('1.3.1')
+      .version('1.3.4')
       .usage('[options] [pkgVersion]', 'patch')
       .description('Description:\n\n    ' + 'Automatically bump and publish a release to npm and/or github.\n\n    ' +
           '    [pkgVersion] can be one of the following:\n\n' +
@@ -19,12 +19,17 @@
       .option('-d, --dest [dest]', 'either npm or github; omit for both')
       .option('-nc, --no-commit', 'do NOT push a bump commit to master')
       .option('-q, --quiet', 'output nothing (suppress STDOUT and STDERR)')
+      .option('-v, --verbose', 'display full stack traces for errors; takes precedence over `-q`')
       .parse(process.argv);
 
-  publish(program.args[0], {dest: program.dest, commit: program.commit, quiet: program.quiet})
+  publish(program.args[0], {dest: program.dest, commit: program.commit, quiet: program.quiet, verbose: program.verbose})
       .then(process.exit)
       .catch(function(err) {
-        cjsErr(err);
+        if (program.verbose || !program.quiet) {
+          var opts = {verbose: program.verbose};
+          cjsErr(opts, err);
+        }
+
         process.exit(1);
       })
       .done();
