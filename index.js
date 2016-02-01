@@ -35,15 +35,15 @@
       options = options || {};
 
       if (options.dest && !_.includes(['npm', 'github'], options.dest)) {
-        reject('unknown [dest]: ' + options.dest);
+        reject(new Error('unknown [dest]: ' + options.dest));
+      } else {
+        bumpPackageJson()
+            .then(commitAndPush)
+            .then(publish)
+            .then(success)
+            .catch(reject)
+            .done();
       }
-
-      bumpPackageJson()
-          .then(commitAndPush)
-          .then(publish)
-          .then(success)
-          .catch(reject)
-          .done();
 
       function bumpPackageJson() {
         return new Promise(function(resolve, reject) {
@@ -59,7 +59,7 @@
           } else if (version.match(/^\d+\.\d+\.\d+$/)) {
             bumpOption = 'version';
           } else {
-            reject('unknown [version]: ' + options.pkgVersion);
+            reject(new Error('unknown [version]: ' + options.pkgVersion));
           }
 
           if (options.quiet) {
@@ -76,7 +76,7 @@
                 process.stderr.write = stderr;
 
                 if (err) {
-                  reject('failed to bump version in package.json');
+                  reject(new Error('failed to bump version in package.json'));
                 } else {
                   resolve();
                 }
@@ -85,7 +85,7 @@
       }
 
       function commitAndPush() {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve) {
           add(); // calls commit() on success
 
           // calls commit() on success
@@ -125,7 +125,6 @@
         if (options.dest === 'npm') {
           return publishToNpm();
         } else if (options.dest === 'github') {
-          version = require(pkg).version;
           return publishToGithub(require(pkg).version);
         }
 
@@ -144,11 +143,11 @@
           tag(); // calls push() on success
 
           function tag() {
-            _spork('git', ['tag', version], push, _.partial(reject, 'failed to create git tag'));
+            _spork('git', ['tag', version], push, _.partial(reject, new Error('failed to create git tag')));
           }
 
           function push() {
-            _spork('git', ['push', 'origin', version], done, _.partial(reject, 'failed to publish release to github'));
+            _spork('git', ['push', 'origin', version], done, _.partial(reject, new Error('failed to publish release to github')));
           }
 
           function done() {
@@ -168,7 +167,7 @@
        */
       function publishToNpm() {
         return new Promise(function(resolve, reject) {
-          _spork('npm', ['publish'], done, _.partial(reject, 'failed to publish to npm'));
+          _spork('npm', ['publish'], done, _.partial(reject, new Error('failed to publish to npm')));
 
           function done() {
             if (!options.quiet) {
