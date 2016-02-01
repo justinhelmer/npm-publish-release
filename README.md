@@ -80,11 +80,11 @@ require('node-clean-exit')([child]); // separate project
 
 The options are the same for both the `CLI` and the `module` interface:
 
-- `version` _{string}_ - Can be `major`, `minor`, `patch`, or a specific version number in the format `X.X.X`. If omitted, `patch` is assumed.
-- `dest` _{string}_ - Can be either `npm` or `github`. Omit to publish to both.
-- `quiet` _{boolean}_ - Suppress all output. Defaults to `false`.
+- **version** _{string}_ - Can be `major`, `minor`, `patch`, or a specific version number in the format `X.X.X`. If omitted, `patch` is assumed.
+- **commit** _{boolean}_ - Optionally push a new commit to master with the message "Bumped to version X.X.X"
+- **dest** _{string}_ - Either npm or github; omit for both.
+- **quiet** _{boolean}_ - Output nothing (suppress STDOUT and STDERR)').
   > Be careful here; any prompt for credentials will not be shown.
-- `verbose` _{mixed}_ - Can be a boolean or a number. The higher the number, the higher the verbosity. Defaults to `false`.
 
 -----
 

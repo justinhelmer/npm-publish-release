@@ -23,6 +23,7 @@
    *
    * @param {string} [version=patch] - The version to publish. major, minor, patch, or X.X.X.
    * @param {object} [options] - Additional options to alter the behavior.
+   * @param {boolean} [options.commit] - Optionally push a new commit to master with the message "Bumped to version X.X.X"
    * @param {string} [options.dest] - Either npm or github; omit for both.
    * @param {string} [options.quiet] - Output nothing (suppress STDOUT and STDERR)').
    * @return {Bluebird promise} - Resolves with nothing on success, rejects with a {string} message when the first operation fails.
@@ -37,6 +38,7 @@
 
       bumpPackageJson()
           .then(publish)
+          .then(commitAndPush)
           .then(success)
           .catch(reject)
           .done();
@@ -77,6 +79,54 @@
                   resolve();
                 }
               });
+        });
+      }
+
+      function commitAndPush() {
+        if (!options.commit) {
+          return Promise.resolve();
+        }
+
+        return new Promise(function(resolve, reject) {
+          add(); // calls commit() on success
+
+          function add() {
+            spork('git', ['add', 'package.json'], {exit: false})
+                .on('exit:code', function(code) {
+                  if (code === 0) {
+                    commit(); // calls push() on success
+                  } else {
+                    reject('failed to stage package.json');
+                  }
+                });
+          }
+
+          function commit() {
+            spork('git', ['commit', '-m', '"Bumping to version ' + require(pkg).version + '"'], {exit: false})
+                .on('exit:code', function(code) {
+                  if (code === 0) {
+                    push();
+                  } else {
+                    reject('failed to commit to master');
+                  }
+                });
+          }
+
+
+          function push() {
+            spork('git', ['push', 'origin', 'master'], {exit: false})
+                .on('exit:code', function(code) {
+                  if (code === 0) {
+                    if (!options.quiet) {
+                      gutil.log('Pushed commit to \'' + chalk.cyan('master') + '\'');
+                    }
+
+                    resolve();
+                  } else {
+                    reject('failed to push commit to origin/master');
+                  }
+                });
+          }
         });
       }
 
