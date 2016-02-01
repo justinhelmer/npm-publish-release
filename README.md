@@ -45,8 +45,9 @@ $ npm link && npm link npm-publish-release
 As mentioned earlier, the key is _simplicity_. With no additional options, `npm-publish-release` will do all of the following:
 
 1. Bump the `PATCH` version in `package.json`.
-2. Publish a `tag` to `github`.
-3. Publish a release to `npm`.
+2. Create a new commit with the text `"Bumping to version X.X.X", and push it to master
+3. Publish a `tag` to `github`.
+4. Publish a release to `npm`.
 
 ### CLI
 
