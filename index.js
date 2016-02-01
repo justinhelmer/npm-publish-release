@@ -90,21 +90,30 @@
 
           // calls commit() on success
           function add() {
-            _spork('git', ['add', 'package.json'], commit, _.partial(reject, 'failed to stage package.json'));
+            _spork('git', ['add', 'package.json'], commit, _.partial(fulfill, 'Could not stage \'' + chalk.cyan('package.json') + '\''));
           }
 
           // calls push() on success
           function commit() {
-            _spork('git', ['commit', '-m', 'Bumping to version ' + require(pkg).version], push, _.partial(reject, 'failed to commit to master'));
+            _spork('git', ['commit', '-m', 'Bumping to version ' + require(pkg).version], push,
+                _.partial(fulfill, 'Could not commit \'' + chalk.cyan('package.json') + '\''));
           }
 
           function push() {
-            _spork('git', ['push', 'origin', 'master'], done, _.partial(reject, 'failed to push commit to origin/master'));
+            _spork('git', ['push', 'origin', 'master'], done, _.partial(fulfill, 'Could not push commit \'' + chalk.cyan('master') + '\''));
           }
 
           function done() {
             if (!options.quiet) {
               gutil.log('Pushed commit to \'' + chalk.cyan('master') + '\'');
+            }
+
+            resolve();
+          }
+
+          function fulfill(msg) {
+            if (!options.quiet) {
+              gutil.log(chalk.cold.yellow('[WARNING]:'), msg + '; aborting auto-commit & push');
             }
 
             resolve();
@@ -194,6 +203,7 @@
 
   // Wrapper around spork to shorthand common behavior
   function _spork(command, args, resolve, reject) {
+    console.log(args);
     spork(command, args, {exit: false, quiet: true})
         .on('exit:code', function(code) {
           if (code === 0) {
