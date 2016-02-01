@@ -1,6 +1,6 @@
 {
   "name": "npm-publish-release",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Simple interface for publishing a release to npm and/or github",
   "keywords": [
     "npm",
