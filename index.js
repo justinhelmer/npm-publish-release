@@ -181,7 +181,7 @@
                 .on('exit:code', function(code) {
                   if (code === 0) {
                     if (!options.quiet) {
-                      logPublished(version, 'github');
+                      gutil.log('Published', '\'' + chalk.magenta(version) + '\'', 'to \'' + chalk.cyan('github') + '\'');
                     }
 
                     resolve();
@@ -193,10 +193,26 @@
         });
       }
 
-      function publishToNpm(version) {
-        console.log(chalk.bold.yellow('[WARN]:'), 'npm not yet supported. skipping.');
-        //logPublished(version, 'npm');
-        return Promise.resolve('Skipped');
+      /**
+       * Publish the current codebase to npm.
+       *
+       * @return {Bluebird promise} - Resolves or rejects (with nothing) based on the status of the `git` commands.
+       */
+      function publishToNpm() {
+        return new Promise(function(resolve, reject) {
+          spork('npm', ['publish'], {exit: false, quiet: true})
+              .on('exit:code', function(code) {
+                if (code === 0) {
+                  if (!options.quiet) {
+                    gutil.log('Published to \'' + chalk.cyan('npm') + '\'');
+                  }
+
+                  resolve();
+                } else {
+                  reject('failed to publish to npm');
+                }
+              });
+        });
       }
 
       function success() {
