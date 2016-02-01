@@ -10,13 +10,14 @@ Easy interface for automatically bumping and publishing a release to `npm` and/o
 A little package that stresses _simplicity_. Publishes a release to `git` or `npm` by:
 
 1. Bumping the `MAJOR` / `MINOR` / `PATCH` version appropriately in `package.json`.
+2. _(optionally)_ Creating a new commit for the version bump and pushing it to origin.
 2. _(optionally)_ Publishing a [git tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging) with the format `vX.X.X`, i.e. `v2.4.8` to a `github` repository.
 3. _(optionally)_ Publishing to `npm` by using [npm publish](https://docs.npmjs.com/cli/publish).
 
 ## Installation
 
-`npm-publish-release` uses [vinyl-fs](https://github.com/gulpjs/vinyl-fs) for modifying `package.json`; specifically [gulp-bump](https://www.npmjs.com/package/gulp-bump).
-Therefore `gulp` must be installed globally:
+`npm-publish-release` uses [vinyl-fs](https://github.com/gulpjs/vinyl-fs) for modifying `package.json` by _streaming_; specifically
+[gulp-bump](https://www.npmjs.com/package/gulp-bump). Therefore `gulp` must be installed globally:
 
 ```bash
 $ npm install --global gulp
@@ -45,7 +46,7 @@ $ npm link && npm link npm-publish-release
 As mentioned earlier, the key is _simplicity_. With no additional options, `npm-publish-release` will do all of the following:
 
 1. Bump the `PATCH` version in `package.json`.
-2. Create a new commit with the text `"Bumping to version X.X.X", and push it to master
+2. Create a new commit with the text `"Bumping to version X.X.X"`, and push it to master
 3. Publish a `tag` to `github`.
 4. Publish a release to `npm`.
 
@@ -54,7 +55,7 @@ As mentioned earlier, the key is _simplicity_. With no additional options, `npm-
 Assuming your code is all committed and your working copy clean, run:
 
 ```bash
-$ npr   # alias for node-publish-release
+$ npr # alias for npm-publish-release
 ```
 
 ![npm-publish-release output](https://raw.github.com/justinhelmer/npm-publish-release/master/npr.jpg)
@@ -85,11 +86,11 @@ require('node-clean-exit')([child]); // node-exit-clean is a separate project
 The options are the same for both the `CLI` (_kebab-case_) and the `module` interface (_camelCase_):
 
 - **version** _{string}_ - Can be `major`, `minor`, `patch`, or a specific version number in the format `X.X.X`. If omitted, `patch` is assumed.
-- **no-commit** _{boolean}_ - By default, a new commit is created and pushed to origin/master AFTER the version bump and
-                              BEFORE the publish, to keep npm & github release versions in-sync. This option disables that behavior.
-                              May be useful if there is no associated git repository.
-- **dest** _{string}_ - Either npm or github; omit for both.
-- **quiet** _{boolean}_ - Output nothing (suppress STDOUT and STDERR)').
+- **no-commit** _{boolean}_ - By default, a new commit is created and pushed to origin/master **after** the version bump and
+                              **before** the publish, to keep `npm` & `github` release versions in-sync. This option disables that behavior.
+                              May be useful if there is no associated `git` repository.
+- **dest** _{string}_ - Either `npm` or `github`; omit for both.
+- **quiet** _{boolean}_ - Output nothing (suppress `STDOUT` and `STDERR`).
 
   > Be careful here; any prompt for credentials will not be shown.
 
