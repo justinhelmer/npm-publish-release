@@ -90,59 +90,33 @@
         return new Promise(function(resolve, reject) {
           add(); // calls commit() on success
 
+          // calls commit() on success
           function add() {
-            spork('git', ['add', 'package.json'], {exit: false, quiet: true})
-                .on('exit:code', function(code) {
-                  if (code === 0) {
-                    commit(); // calls push() on success
-                  } else {
-                    reject('failed to stage package.json');
-                  }
-                });
+            _spork('git', ['add', 'package.json'], commit, _.partial(reject, 'failed to stage package.json'));
           }
 
+          // calls push() on success
           function commit() {
-            spork('git', ['commit', '-m', 'Bumping to version ' + require(pkg).version], {exit: false, quiet: true})
-                .on('exit:code', function(code) {
-                  if (code === 0) {
-                    push();
-                  } else {
-                    reject('failed to commit to master');
-                  }
-                });
+            _spork('git', ['commit', '-m', 'Bumping to version ' + require(pkg).version], push, _.partial(reject, 'failed to commit to master'));
           }
-
 
           function push() {
-            spork('git', ['push', 'origin', 'master'], {exit: false, quiet: true})
-                .on('exit:code', function(code) {
-                  if (code === 0) {
-                    if (!options.quiet) {
-                      gutil.log('Pushed commit to \'' + chalk.cyan('master') + '\'');
-                    }
+            _spork('git', [
+              'commit', '-m',
+              'Bumping to version ' + require(pkg).version
+            ], done, _.partial(reject, 'failed to push commit to origin/master'));
+          }
 
-                    resolve();
-                  } else {
-                    reject('failed to push commit to origin/master');
-                  }
-                });
+          function done() {
+            if (!options.quiet) {
+              gutil.log('Pushed commit to \'' + chalk.cyan('master') + '\'');
+            }
+
+            resolve();
           }
         });
       }
 
-      /**
-       * Log a formatted message indicating the successful publish of a version to npm or github.
-       *
-       * @param {string} [version] - The version which was published. Will be in the format 'X.X.X' for npm, and 'vX.X.X' for github.
-       * @param {object} [dest] - The published destination. Possible values: npm, github.
-       */
-      function logPublished(version, dest) {
-        if (!options.quiet) {
-          gutil.log('Published', '\'' + chalk.magenta(version) + '\'', 'to \'' + chalk.cyan(dest) + '\'');
-        }
-      }
-
-      // @TODO use through2-filter to scrub the version from the write stream
       function publish() {
         if (options.dest === 'npm') {
           return publishToNpm();
@@ -166,29 +140,19 @@
           tag(); // calls push() on success
 
           function tag() {
-            spork('git', ['tag', version], {exit: false, quiet: true})
-                .on('exit:code', function(code) {
-                  if (code === 0) {
-                    push();
-                  } else {
-                    reject('failed to create git tag');
-                  }
-                });
+            _spork('git', ['tag', version], push, _.partial(reject, 'failed to create git tag'));
           }
 
           function push() {
-            spork('git', ['push', 'origin', version], {exit: false, quiet: true})
-                .on('exit:code', function(code) {
-                  if (code === 0) {
-                    if (!options.quiet) {
-                      gutil.log('Published', '\'' + chalk.magenta(version) + '\'', 'to \'' + chalk.cyan('github') + '\'');
-                    }
+            _spork('git', ['push', 'origin', version], done, _.partial(reject, 'failed to publish release to github'));
+          }
 
-                    resolve();
-                  } else {
-                    reject('failed to publish release to github');
-                  }
-                });
+          function done() {
+            if (!options.quiet) {
+              gutil.log('Published', '\'' + chalk.magenta(version) + '\'', 'to \'' + chalk.cyan('github') + '\'');
+            }
+
+            resolve();
           }
         });
       }
@@ -200,18 +164,15 @@
        */
       function publishToNpm() {
         return new Promise(function(resolve, reject) {
-          spork('npm', ['publish'], {exit: false, quiet: true})
-              .on('exit:code', function(code) {
-                if (code === 0) {
-                  if (!options.quiet) {
-                    gutil.log('Published to \'' + chalk.cyan('npm') + '\'');
-                  }
+          _spork('npm', ['publish'], done, _.partial(reject, 'failed to publish to npm'));
 
-                  resolve();
-                } else {
-                  reject('failed to publish to npm');
-                }
-              });
+          function done() {
+            if (!options.quiet) {
+              gutil.log('Published to \'' + chalk.cyan('npm') + '\'');
+            }
+
+            resolve();
+          }
         });
       }
 
@@ -234,6 +195,18 @@
   function outputDisable() {
     process.stdout.write = stdout;
     process.stderr.write = stderr;
+  }
+
+  // Wrapper around spork to shorthand common behavior
+  function _spork(command, args, resolve, reject) {
+    spork(command, args, {exit: false, quiet: true})
+        .on('exit:code', function(code) {
+          if (code === 0) {
+            resolve();
+          } else {
+            reject();
+          }
+        });
   }
 
   module.exports = publishRelease;
