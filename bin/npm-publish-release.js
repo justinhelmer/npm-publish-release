@@ -7,7 +7,7 @@
   var publish = require('../index');
 
   program
-      .version('1.1.3')
+      .version('1.1.4')
       .usage('[options] [pkgVersion]', 'patch')
       .description('Description:\n\n    ' + 'Automatically bump and publish a release to npm and/or github.\n\n    ' +
           '    [pkgVersion] can be one of the following:\n\n' +

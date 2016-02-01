@@ -55,6 +55,8 @@ With no additional options, this will do all of the following:
 3. Publish a `tag` to `github`.
 4. Publish a release to `npm`.
 
+![npm-publish-release output](https://raw.github.com/justinhelmer/npm-publish-release/master/npr.jpg)
+
 Done.
 
 ### Using it programmatically
