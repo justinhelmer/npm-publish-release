@@ -81,10 +81,12 @@ require('node-clean-exit')([child]); // node-exit-clean is a separate project
 
 ## Options
 
-The options are the same for both the `CLI` and the `module` interface:
+The options are the same for both the `CLI` (_kebab-case_) and the `module` interface (_camelCase_):
 
 - **version** _{string}_ - Can be `major`, `minor`, `patch`, or a specific version number in the format `X.X.X`. If omitted, `patch` is assumed.
-- **commit** _{boolean}_ - Optionally push a new commit to master with the message "Bumped to version X.X.X"
+- **no-commit** _{boolean}_ - By default, a new commit is created and pushed to origin/master AFTER the version bump and
+                              BEFORE the publish, to keep npm & github release versions in-sync. This option disables that behavior.
+                              May be useful if there is no associated git repository.
 - **dest** _{string}_ - Either npm or github; omit for both.
 - **quiet** _{boolean}_ - Output nothing (suppress STDOUT and STDERR)').
 

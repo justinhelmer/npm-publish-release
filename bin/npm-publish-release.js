@@ -17,7 +17,7 @@
           '    If `--dest` is not supplied, the package is published\n' +
           '    to both npm and github.')
       .option('-d, --dest [dest]', 'either npm or github; omit for both')
-      .option('-c, --commit', 'commit the version bump and push it to master')
+      .option('-nc, --no-commit', 'do NOT push a bump commit to master')
       .option('-q, --quiet', 'output nothing (suppress STDOUT and STDERR)')
       .parse(process.argv);
 

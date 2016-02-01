@@ -23,7 +23,9 @@
    *
    * @param {string} [version=patch] - The version to publish. major, minor, patch, or X.X.X.
    * @param {object} [options] - Additional options to alter the behavior.
-   * @param {boolean} [options.commit] - Optionally push a new commit to master with the message "Bumped to version X.X.X"
+   * @param {boolean} [options.noCommit] - By default, a new commit is created and pushed to origin/master AFTER the version bump and
+   *                                       BEFORE the publish, to keep npm & github release versions in-sync. This option disables that behavior.
+   *                                       May be useful if there is no associated git repository.
    * @param {string} [options.dest] - Either npm or github; omit for both.
    * @param {string} [options.quiet] - Output nothing (suppress STDOUT and STDERR)').
    * @return {Bluebird promise} - Resolves with nothing on success, rejects with a {string} message when the first operation fails.
@@ -37,8 +39,8 @@
       }
 
       bumpPackageJson()
-          .then(publish)
           .then(commitAndPush)
+          .then(publish)
           .then(success)
           .catch(reject)
           .done();
@@ -83,10 +85,6 @@
       }
 
       function commitAndPush() {
-        if (!options.commit) {
-          return Promise.resolve();
-        }
-
         return new Promise(function(resolve, reject) {
           add(); // calls commit() on success
 
