@@ -113,7 +113,7 @@
 
           function fulfill(msg) {
             if (!options.quiet) {
-              gutil.log(chalk.cold.yellow('[WARNING]:'), msg + '; aborting auto-commit & push');
+              gutil.log(chalk.bold.yellow('[WARNING]:'), msg + '; aborting auto-commit & push');
             }
 
             resolve();
