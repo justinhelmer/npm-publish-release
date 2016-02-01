@@ -50,10 +50,10 @@ $ npm-publish-release
 
 With no additional options, this will do all of the following:
 
-1) Bump the `PATCH` version in `package.json`.
-2) Add a new commit with the message `Bumping to version X.X.X`.
-3) Publish a `tag` to `github`.
-4) Publish a release to `npm`.
+1. Bump the `PATCH` version in `package.json`.
+2. Add a new commit with the message `Bumping to version X.X.X`.
+3. Publish a `tag` to `github`.
+4. Publish a release to `npm`.
 
 Done.
 
@@ -73,7 +73,7 @@ let child = publish()
     })
     .done();
     
-require('node-clean-exit')([child]); // separate project
+require('node-clean-exit')([child]); // node-exit-clean is a separate project
 ```
 
 ## Options
@@ -84,6 +84,7 @@ The options are the same for both the `CLI` and the `module` interface:
 - **commit** _{boolean}_ - Optionally push a new commit to master with the message "Bumped to version X.X.X"
 - **dest** _{string}_ - Either npm or github; omit for both.
 - **quiet** _{boolean}_ - Output nothing (suppress STDOUT and STDERR)').
+
   > Be careful here; any prompt for credentials will not be shown.
 
 -----

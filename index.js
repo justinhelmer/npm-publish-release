@@ -101,10 +101,7 @@
           }
 
           function push() {
-            _spork('git', [
-              'commit', '-m',
-              'Bumping to version ' + require(pkg).version
-            ], done, _.partial(reject, 'failed to push commit to origin/master'));
+            _spork('git', ['push', 'origin', 'master'], done, _.partial(reject, 'failed to push commit to origin/master'));
           }
 
           function done() {
