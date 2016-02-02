@@ -4,6 +4,7 @@ Easy interface for automatically bumping and publishing a release to `npm` and/o
 [![npm package](https://badge.fury.io/js/npm-publish-release.svg)](https://www.npmjs.com/package/npm-publish-release)
 [![node version](https://img.shields.io/node/v/npm-publish-release.svg?style=flat)](http://nodejs.org/download/)
 [![dependency status](https://david-dm.org/justinhelmer/npm-publish-release.svg)](https://github.com/justinhelmer/npm-publish-release)
+[![build status](https://travis-ci.org/justinhelmer/node-alias.svg?branch=master)](https://travis-ci.org/justinhelmer/node-alias)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/justinhelmer/npm-publish-release/issues)
 
 A little package that stresses _simplicity_. Publishes a release to `git` or `npm` by:
