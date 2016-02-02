@@ -8,7 +8,7 @@
   var gulp = require('gulp');
   var path = require('path');
   var Promise = require('bluebird');
-  var spork = require('node-spork');
+  var spork = require('spork');
 
   var pkg = path.resolve(process.cwd(), 'package.json'); // Just grab the path, don't read from disk
   var stdout = process.stdout.write;
