@@ -37,6 +37,7 @@
     "gulp-exit": "0.0.2",
     "gulp-util": "^3.0.7",
     "lodash": "^4.1.0",
+    "node-alias": "^1.0.0",
     "node-clean-exit": "^0.2.1",
     "node-spork": "^0.2.3"
   },
