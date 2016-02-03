@@ -27,7 +27,7 @@ $ npm install --global gulp
 ### Install globally
 
 ```bash
-$ npm install --global npm-publish-release   # links to node/.bin (avalable everywhere) 
+$ npm install --global npm-publish-release   # avalable everywhere 
 ```
 
 ### Install locally
@@ -35,9 +35,9 @@ $ npm install --global npm-publish-release   # links to node/.bin (avalable ever
 ```bash
 $ npm install --save npm-publish-release
 
-# optionally link the script to node/.bin
+# optionally link the script to node_modules/npm-publish-release
 # (does NOT install the module globally)
-$ npm link && npm link npm-publish-release
+$ cd node_modules/npm-publish-release && npm link
 ```
 
 ## Usage
